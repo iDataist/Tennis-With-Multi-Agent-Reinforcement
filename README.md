@@ -143,7 +143,7 @@ The task is episodic, and in order to solve the environment, the agents must get
 
 ## File Descriptions
 
-1. [requirements.txt]() - Includes all the required libraries for the Conda Environment.
+1. [requirements.txt](https://github.com/iDataist/Tennis-With-Multi-Agent-Reinforcement/blob/main/requirements.txt) - Includes all the required libraries for the Conda Environment.
 2. [model.py](https://github.com/iDataist/Tennis-With-Multi-Agent-Reinforcement/blob/main/model.py) - Defines the actor and critic networks.
 3. [agent.py](https://github.com/iDataist/Tennis-With-Multi-Agent-Reinforcement/blob/main/agent.py) - Defines the Agent that uses MADDPG to determine the best action to take and maximizes the overall or total reward.
 4. [Tennis.ipynb](https://github.com/iDataist/Tennis-With-Multi-Agent-Reinforcement/blob/main/Tennis.ipynb) - The main file that trains the agents. This file can be run in the Conda environment.
