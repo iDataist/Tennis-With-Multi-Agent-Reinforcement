@@ -149,7 +149,7 @@ The task is episodic, and in order to solve the environment, the agents must get
 4. [Tennis.ipynb](https://github.com/iDataist/Tennis-With-Multi-Agent-Reinforcement/blob/main/Tennis.ipynb) - The main file that trains the agents. This file can be run in the Conda environment.
 
 ## Plot of Rewards
-The environment was solved in 1200 episodes.
+The environment was solved in 1010 episodes.
 
 ![](score.png)
 
