@@ -151,34 +151,47 @@ class MADDPG:
             target_param.data.copy_(tau*local_param.data + (1.0-tau)*target_param.data)
 
 class OUNoise:
+    """Ornstein-Uhlenbeck process."""
 
-    def __init__(self, action_size, scale=0.1, mu=0, theta=0.15, sigma=0.2):
-        self.action_size = action_size
-        self.scale = scale
-        self.mu = mu
+    def __init__(self, size, seed, mu=0., theta=0.15, sigma=0.2, scale_start=0.99):
+        """Initialize parameters and noise process."""
+        self.size = size
+        self.seed = random.seed(seed)
+        self.mu = mu * np.ones(size)
         self.theta = theta
         self.sigma = sigma
-        self.state = np.ones(self.action_size) * self.mu
+        self.scale_start = scale_start 
+        self.counter = 0
         self.reset()
 
     def reset(self):
-        self.state = np.ones(self.action_size) * self.mu
+        """Reset the internal state (= noise) to mean (mu)."""
+        self.state = copy.copy(self.mu)
+        self.counter += 1
+        self.scale = self.scale_start ** self.counter
 
     def sample(self):
+        """Update internal state and return it as a noise sample."""
         x = self.state
-        dx = self.theta * (self.mu - x) + self.sigma * np.random.randn(len(x))
+        dx = self.theta * (self.mu - x) + self.sigma * np.random.standard_normal(self.size)
         self.state = x + dx
         return torch.tensor(self.state * self.scale).float()
-
+    
 class ReplayBuffer:
     """Fixed-size buffer to store experience tuples."""
 
     def __init__(self, action_size, buffer_size, batch_size, seed):
+        """Initialize a ReplayBuffer object.
+        Params
+        ======
+            buffer_size (int): maximum size of buffer
+            batch_size (int): size of each training batch
+        """
         self.action_size = action_size
-        self.memory = deque(maxlen=buffer_size)
+        self.memory = deque(maxlen=buffer_size)  # internal memory (deque)
         self.batch_size = batch_size
         self.experience = namedtuple("Experience", field_names=["state", "action", "reward", "next_state", "done"])
-        random.seed(seed)
+        self.seed = random.seed(seed)
 
     def add(self, state, action, reward, next_state, done):
         """Add a new experience to memory."""
