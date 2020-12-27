@@ -160,8 +160,8 @@ class OUNoise:
         self.mu = mu * np.ones(size)
         self.theta = theta
         self.sigma = sigma
-        self.scale_start = scale_start 
-        self.counter = 0
+        self.scale_start = scale_start
+        self.counter = 100
         self.reset()
 
     def reset(self):
@@ -176,7 +176,7 @@ class OUNoise:
         dx = self.theta * (self.mu - x) + self.sigma * np.random.standard_normal(self.size)
         self.state = x + dx
         return torch.tensor(self.state * self.scale).float()
-    
+
 class ReplayBuffer:
     """Fixed-size buffer to store experience tuples."""
 
